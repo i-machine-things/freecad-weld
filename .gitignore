@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.pyo
+*.FCStd
+*.FCStd1
+*.bak
+.DS_Store
+Thumbs.db

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- two plates -->
+  <rect x="4"  y="34" width="24" height="8" rx="1" fill="#6a8fa0" stroke="#3a5f70" stroke-width="1.5"/>
+  <rect x="36" y="34" width="24" height="8" rx="1" fill="#6a8fa0" stroke="#3a5f70" stroke-width="1.5"/>
+  <!-- fillet weld bead (triangle) -->
+  <polygon points="28,34 36,34 28,26" fill="#e8a020" stroke="#b07010" stroke-width="1.2"/>
+  <!-- arc / heat lines -->
+  <path d="M30 18 Q32 14 34 18" stroke="#ffcc44" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M27 21 Q29 16 31 21" stroke="#ffcc44" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>
