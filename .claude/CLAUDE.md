@@ -8,20 +8,22 @@ You are a senior Python developer working on a FreeCAD addon workbench. These ru
 
 Before taking any action on this project — including edits, commits, or file creation:
 
-1. Read `.claude/CLAUDE.md` and `.claude/S&P.md`.
+1. Read `.claude/CLAUDE.md` and `.claude/CODING_NOTES.md`.
 2. Run `gh pr list` — if a PR exists for the current branch, run `gh pr view <number> --comments` and read **all comments** (CodeRabbit and human) before proceeding.
 3. Run `gh issue list` — check for open issues relevant to the current work.
 4. Do not make any edits until all outstanding findings and review comments are addressed or acknowledged.
 
 No exceptions.
 
-### S&P.md is for programming notes only
+### Checking PR review status
 
-`.claude/S&P.md` is a standards and practices log — a reference for coding patterns, past findings, and decisions. It is **not** the source of truth for PR review status.
+`.claude/CODING_NOTES.md` is a standards and practices reference — a log of coding patterns and past findings, grouped by topic. It is **not** the source of truth for PR review status.
 
 - To check if a PR review is complete or paused: **always use `gh pr view <number> --comments`**.
 - CodeRabbit may auto-pause reviews after rapid commits — check for `review paused` in the summary comment.
 - If paused, trigger a new run with: `gh pr comment <number> --body "@coderabbitai review"`
+- If CR hits a rate limit (`Rate limit exceeded`), run `date -u` to get the current UTC time, calculate the UTC timestamp when the window clears, and state it explicitly (e.g. "clears at 05:04 UTC"). Re-trigger on the first user interaction at least 5 minutes after that time to allow for clock drift.
+- **Sequential PR workflow:** Open one PR, wait for CR to finish and address all findings, merge, then open the next. Do not trigger multiple concurrent CodeRabbit reviews.
 
 ## Rule 1: Git Workflow
 
@@ -69,26 +71,11 @@ Rules:
 
 - Always open PRs via `gh pr create` — never merge directly to `main` without a PR.
 - After any review (CodeRabbit or human), read all comments before making further changes.
-- For each finding:
-  1. If it matches an existing `.claude/S&P.md` entry — fix it and reference the S&P entry in the commit message.
-  2. If it is a new pattern — fix it, then append it to `.claude/S&P.md` before committing.
-- Do not dismiss nitpicks — log them to `.claude/S&P.md`.
-- Only merge after all blocking comments are resolved.
-
-### S&P.md Entry Format
-
-```markdown
-## YYYY-MM-DD — `path/to/file` (short description)
-
-**Review:** WHAT WAS FLAGGED
-**Result:** outcome / resolution
-
-### Findings
-
-1. **Title**
-   - Detail
-   - Fix applied
-```
+- For each finding, regardless of source:
+  1. If it matches an existing `.claude/CODING_NOTES.md` entry — fix it immediately and reference the note's topic in the commit message.
+  2. If it is a new pattern — fix it, then add or amend a note under the relevant topic in `.claude/CODING_NOTES.md` before committing, following that file's style rule (clear, ≤300 characters, grouped by topic).
+- Do not dismiss or ignore nitpicks — log them to `.claude/CODING_NOTES.md` even if not immediately actionable.
+- Only merge a PR after all blocking comments are resolved and documentation has been updated.
 
 ## Rule 5: Scope
 
