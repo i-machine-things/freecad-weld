@@ -2,7 +2,7 @@
 
 import FreeCAD
 import FreeCADGui
-from PySide2 import QtCore, QtWidgets
+from PySide import QtCore, QtWidgets  # FreeCAD's own PySide module, for Qt5 and Qt6 builds
 
 
 class _AddBeadTask:
