@@ -12,6 +12,7 @@
 - `wire.makePipeShell(profiles, solid, frenet)` sweeps the profiles along `wire`: the wire it is called on is the spine. Draw each profile at the spine's start, in the plane normal to it, before sweeping.
 - To find which side of an edge a face lies on, classify a probe point in the face's (u, v) domain with `face.isPartOfDomain`. `distToShape` next to a curved boundary goes wrong once the GUI has meshed the shape for display.
 - Read an edge picked in the 3D view with `getSelectionEx("", 0)` and place it with `Part.getShape(top, "path.")`. The resolved object's `.Shape` leaves out the placement of any container or link around it.
+- Any geometry call can raise `Part.OCCError` (`Surface.parameter`, `normalAt`, `isInside`, sweeps). Code that runs from a task panel's OK catches it next to its own errors, so the panel can show its warning instead of stopping mid-way (CodeRabbit, PR #6).
 
 ## FreeCAD documents
 
