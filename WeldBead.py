@@ -78,10 +78,6 @@ class WeldBead:
         rate = _DEPOSITION_RATE.get((obj.Process, obj.Position), 150)
         obj.TimeMinutes = round(length / rate, 3)
 
-    def onChanged(self, obj, prop):
-        if prop in ("SourceEdge", "WeldType", "Size", "Process", "Position"):
-            obj.recompute()
-
 
 class WeldBeadViewProvider:
     def __init__(self, vobj):
