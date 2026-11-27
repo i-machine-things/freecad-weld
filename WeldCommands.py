@@ -34,22 +34,35 @@ class _AddBeadTask:
         layout.addRow("Position", self._position)
 
         self._hint = QtWidgets.QLabel(
-            "Select an edge in the 3D view, then click OK."
+            "Select an edge in the 3D view, then click OK. On an outside edge, the "
+            "bead sits on the part that touches the edge's other face. To move it "
+            "to the other face, change the bead's Flip property."
         )
         self._hint.setWordWrap(True)
         layout.addRow(self._hint)
 
-    def accept(self):
-        sel = FreeCADGui.Selection.getSelectionEx()
-        edge_ref = None
-        for s in sel:
-            for sub in s.SubElementNames:
-                if sub.startswith("Edge"):
-                    edge_ref = (s.Object, [sub])
-                    break
-            if edge_ref:
-                break
+    def _selected_edge(self):
+        """(top object, ["path.EdgeN"]) for the first selected edge that is not a weld bead's.
 
+        The selection is read unresolved, from the top of the tree, so the link keeps the path
+        through any part container, assembly or link the edge is in.
+        """
+        import WeldBead as WB
+
+        for s in FreeCADGui.Selection.getSelectionEx("", 0):
+            for sub in s.SubElementNames:
+                if not sub.rpartition(".")[2].startswith("Edge"):
+                    continue
+                owner = s.Object.getSubObject(sub, retType=1)
+                if owner is None or WB.is_weld_bead(owner):
+                    continue
+                return (s.Object, [sub])
+        return None
+
+    def accept(self):
+        import WeldBead as WB
+
+        edge_ref = self._selected_edge()
         if edge_ref is None:
             QtWidgets.QMessageBox.warning(
                 None, "Weld", "Please select an edge before clicking OK."
@@ -62,6 +75,16 @@ class _AddBeadTask:
         self.bead.Size = self._size.value()
         self.bead.Process = self._process.currentText()
         self.bead.Position = self._position.currentText()
+        self.bead.Flip = WB.guess_flip(self.bead)
+
+        doc.recompute()
+        if self.bead.Shape.isNull():
+            QtWidgets.QMessageBox.warning(
+                None, "Weld",
+                "Could not make a weld bead on that edge. The Report view says why. "
+                "Select another edge, or click Cancel.",
+            )
+            return False
 
         # Move bead into Welds group, creating it if needed
         group = doc.getObject("Welds")
