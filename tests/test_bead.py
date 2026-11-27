@@ -11,6 +11,7 @@ import os
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO)
@@ -219,6 +220,12 @@ class BeadTest(unittest.TestCase):
         box = self.box("Box", 10, 20, 30)
         bead = self.bead(box, "Edge99", flip=False)
         self.assertTrue(bead.Shape.isNull())
+
+    def test_guess_flip_survives_an_opencascade_error(self):
+        box = self.box("Box", 10, 20, 30)
+        bead = self.bead(box, "Edge1", flip=False)
+        with mock.patch.object(WeldJoint, "guess_flip", side_effect=Part.OCCError("probe failed")):
+            self.assertFalse(WeldBead.guess_flip(bead))
 
 
 if __name__ in ("__main__", "test_bead"):

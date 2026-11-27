@@ -82,7 +82,7 @@ def guess_flip(obj) -> bool:
             return False
         shape, edge = source
         return WeldJoint.guess_flip(shape, edge, _other_solids(obj.Document, obj))
-    except (SourceError, WeldJoint.JointError):
+    except (SourceError, WeldJoint.JointError, Part.OCCError):
         return False  # execute() reports what is wrong with the edge
 
 
