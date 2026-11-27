@@ -2,15 +2,25 @@
 <package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
   <name>Weld</name>
   <description>Add parametric weld beads to assemblies and track fabrication labor in a spreadsheet.</description>
-  <version>0.1.0</version>
-  <date>2026-07-01</date>
+  <version>0.1.1</version>
+  <date>2026-11-26</date>
   <maintainer email="allann2020@gmail.com">Allan Noble</maintainer>
-  <license>LGPL-2.1-or-later</license>
-  <url type="repository">https://github.com/i-machine-things/freecad-weld</url>
+  <license file="LICENSE">LGPL-2.1-or-later</license>
+  <url type="repository" branch="master">https://github.com/i-machine-things/freecad-weld</url>
+  <url type="bugtracker">https://github.com/i-machine-things/freecad-weld/issues</url>
+  <url type="readme">https://github.com/i-machine-things/freecad-weld/raw/master/README.md</url>
+  <icon>Resources/icons/Weld.svg</icon>
+  <freecadmin>0.21</freecadmin>
+  <tag>weld</tag>
+  <tag>fabrication</tag>
+  <tag>labor</tag>
+  <tag>assembly</tag>
   <content>
     <workbench>
+      <name>Weld</name>
       <classname>WeldWorkbench</classname>
+      <subdirectory>./</subdirectory>
+      <icon>Resources/icons/Weld.svg</icon>
     </workbench>
   </content>
-  <freecadmin>0.21</freecadmin>
 </package>
