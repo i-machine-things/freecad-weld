@@ -78,6 +78,18 @@ class WeldBead:
         rate = _DEPOSITION_RATE.get((obj.Process, obj.Position), 150)
         obj.TimeMinutes = round(length / rate, 3)
 
+    def dumps(self):
+        return None
+
+    def loads(self, state):
+        return None
+
+    def __getstate__(self):  # used by FreeCAD versions without dumps/loads
+        return None
+
+    def __setstate__(self, state):
+        return None
+
 
 class WeldBeadViewProvider:
     def __init__(self, vobj):
@@ -89,6 +101,12 @@ class WeldBeadViewProvider:
 
     def attach(self, vobj):
         self.vobj = vobj
+
+    def dumps(self):
+        return None
+
+    def loads(self, state):
+        return None
 
     def __getstate__(self):
         return None
