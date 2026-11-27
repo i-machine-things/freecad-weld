@@ -119,5 +119,6 @@ def make_weld_bead(name="WeldBead"):
     doc = FreeCAD.ActiveDocument
     obj = doc.addObject("Part::FeaturePython", name)
     WeldBead(obj)
-    WeldBeadViewProvider(obj.ViewObject)
+    if FreeCAD.GuiUp:
+        WeldBeadViewProvider(obj.ViewObject)
     return obj
