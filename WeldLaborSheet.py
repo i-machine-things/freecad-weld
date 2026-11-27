@@ -18,10 +18,16 @@ def _get_or_create_sheet(doc):
     return sheet
 
 
+def _set_text(sheet, cell, text):
+    # The leading ' keeps the cell as text. Without it the sheet parses the cell, and reads a
+    # weld position such as "1F" as 1 farad.
+    sheet.set(cell, "'" + text)
+
+
 def _write_headers(sheet):
     for col, header in enumerate(_HEADERS):
         cell = _col_label(col) + "1"
-        sheet.set(cell, header)
+        _set_text(sheet, cell, header)
         sheet.setStyle(cell, "bold")
 
 
@@ -56,17 +62,17 @@ def update(doc=None):
 
     for row_idx, bead in enumerate(beads, start=2):
         row = str(row_idx)
-        sheet.set("A" + row, bead.Label)
-        sheet.set("B" + row, bead.WeldType)
-        sheet.set("C" + row, bead.Process)
-        sheet.set("D" + row, bead.Position)
+        _set_text(sheet, "A" + row, bead.Label)
+        _set_text(sheet, "B" + row, bead.WeldType)
+        _set_text(sheet, "C" + row, bead.Process)
+        _set_text(sheet, "D" + row, bead.Position)
         sheet.set("E" + row, str(round(bead.Size, 3)))
         sheet.set("F" + row, str(round(bead.LengthMM, 3)))
         sheet.set("G" + row, str(round(bead.TimeMinutes, 3)))
         total_time += bead.TimeMinutes
 
     total_row = str(len(beads) + 2)
-    sheet.set("F" + total_row, "TOTAL")
+    _set_text(sheet, "F" + total_row, "TOTAL")
     sheet.set("G" + total_row, str(round(total_time, 3)))
     sheet.setStyle("F" + total_row, "bold")
     sheet.setStyle("G" + total_row, "bold")
